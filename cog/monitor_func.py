@@ -6,6 +6,7 @@ import requests
 import difflib
 import asyncio
 import urllib
+from bs4 import BeautifulSoup
 
 class monitor_func(commands.Cog):
     def __init__(self, bot):
@@ -28,6 +29,15 @@ class monitor_func(commands.Cog):
         else:
             self.monitored_channels[channel.id] = channel
             await ctx.send(f"Channel '{channel.name}' has been added for receiving updates.")
+
+    @commands.command()
+    async def remove_channel(self, ctx, channel: discord.TextChannel):
+        if channel.id in self.monitored_channels:
+            del self.monitored_channels[channel.id]
+            await ctx.send("Removed.")
+        else:
+            await ctx.send("not exist.")
+
 
     @commands.command()
     async def show_urls(self, ctx):
