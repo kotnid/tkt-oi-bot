@@ -4,3 +4,4 @@ fly.toml
 .dockerignore
 Dockerfile
 NotoSansTC-Bold.ttf
+src/
