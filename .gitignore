@@ -1,2 +1,6 @@
 config.ini
 cog/__pycache__
+fly.toml
+.dockerignore
+Dockerfile
+NotoSansTC-Bold.ttf
