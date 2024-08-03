@@ -4,8 +4,8 @@ import discord
 from discord.ext import commands
 import configparser
 
-config = configparser.ConfigParser()
-config.read('config.ini')
+# config = configparser.ConfigParser()
+# config.read('config.ini')
 intents = discord.Intents.all()
 bot = commands.Bot(command_prefix = "!", intents = intents)
 
@@ -39,4 +39,5 @@ async def setup_hook():
         if filename.endswith(".py"):
             await bot.load_extension(f"cog.{filename[:-3]}")
 
-bot.run(config["DISCORD"]["token"])
+# bot.run(config["DISCORD"]["token"])
+bot.run(os.getenv("token"))
