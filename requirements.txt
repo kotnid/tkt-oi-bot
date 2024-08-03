@@ -1,4 +1,10 @@
-beautifulsoup4==4.12.2
-discord.py==2.3.2
-Requests==2.31.0
-requests2==2.16.0
+beautifulsoup4==4.12.3
+discord.py==2.4.0
+lxml==5.2.2
+Pillow==9.5
+Requests==2.32.3
+requests_html==0.10.0
+selenium==4.22.0
+webdriver_manager==4.0.1
+lxml_html_clean==0.1.1
+chromedriver_autoinstaller==0.6.4
