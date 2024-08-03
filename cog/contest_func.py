@@ -3,9 +3,12 @@ from discord.ext import commands
 import datetime
 import configparser
 import requests
+import os
+import asyncio
+import random
 
-config = configparser.ConfigParser()
-config.read('config.ini')
+# config = configparser.ConfigParser()
+# config.read('config.ini')
 
 url = "https://clist.by/api/v3/contest/"
 
@@ -15,7 +18,8 @@ def get_contests(hosts):
     for host in hosts:
         params = {
             'username': "tkt0506",
-            "api_key": config["contest"]["key"],
+            # "api_key": config["contest"]["key"],
+            "api_key": os.getenv("key"),
             'upcoming': 'true',
             'host': host
         }
@@ -31,6 +35,7 @@ def get_contests(hosts):
                 host = contest_data["host"]
                 href = contest_data["href"]
                 start = contest_data["start"]
+                res = contest_data["resource"]
                 start_utc = datetime.datetime.strptime(start, "%Y-%m-%dT%H:%M:%S")
                 start_utc_plus_8 = start_utc + datetime.timedelta(hours=8)
 
@@ -39,6 +44,7 @@ def get_contests(hosts):
                     "event": event,
                     "host": host,
                     "href": href,
+                    "res" : res,
                     "start": start_utc_plus_8
                 })
 
@@ -51,25 +57,34 @@ class contest_func(commands.Cog):
 
     @commands.command()
     async def contests(self, ctx):
-        hosts = ["codeforces.com", "atcoder.jp"]
+        hosts = ["codeforces.com", "atcoder.jp","codechef.com"]
         upcoming_contests = get_contests(hosts)
 
-        page_size = 3
+        page_size = 4
         total_pages = (len(upcoming_contests) + page_size - 1) // page_size
 
         emoji_list = ["⏪", "⏩"]  # Emoji for navigating between pages
 
         current_page = 0
 
+        urls = {"codeforces.com":"<:cf:1179079517420130314>",
+                "atcoder.jp":"<:at:1179079625389916211>",
+                "codechef.com":"<:cc:1179080237221433454>",
+                "ac":"<:ac:1171452943988428802>"}
+
         def generate_embed(page):
             start_index = page * page_size
             end_index = min((page + 1) * page_size, len(upcoming_contests))
         
             embed = discord.Embed(title=f"Upcoming Contests (Page {page + 1}/{total_pages})", color=discord.Color.blue())
-        
+
             for i in range(start_index, end_index):
                 contest = upcoming_contests[i]
-                embed.add_field(name=f"{contest['event']}", value=f"Start Time: {contest['start']}\n[Contest Link]({contest['href']})", inline=False)
+                embed.add_field(name=f"{urls[contest['res']]} {contest['event']}", value=f"Start Time: {contest['start']}\n[Contest Link]({contest['href']})", inline=False)
+            
+            footer_messages = [f"Left AC blessing", "rating++", "lazy tkt can't think can say what", f"ACACAC"]
+            random_message = random.choice(footer_messages)
+            embed.set_footer(text=random_message)
             
             return embed
 
@@ -105,7 +120,7 @@ class contest_func(commands.Cog):
 
                 await message.remove_reaction(reaction, user)
 
-            except TimeoutError:
+            except asyncio.TimeoutError:
                 break
 
 
