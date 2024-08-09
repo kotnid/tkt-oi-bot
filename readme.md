@@ -22,7 +22,13 @@
         - at : atcoder  
         - cf : codeforces  
         - hkoi : hkoi  
-    - Example : !ac cf tourist
+    - Example : !ac cf tourist   
+!update [platform] [username] : Update username on platform    
+    - Example : !update cf tourist   
+!remove [platform] : Remove data on specific platform   
+    - Example : !remove cf   
+!query : Query all linked platform and corresponding platform    
+!queryAC : Query ac count of all linked platform
 
 ## Credit ## 
 [cprime0916](https://github.com/cprime0916)
