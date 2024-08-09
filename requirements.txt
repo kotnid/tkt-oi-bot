@@ -8,3 +8,4 @@ selenium==4.22.0
 webdriver_manager==4.0.1
 lxml_html_clean==0.1.1
 chromedriver_autoinstaller==0.6.4
+firebase-admin==6.5.0
