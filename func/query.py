@@ -40,8 +40,9 @@ def get_codeforces(username):
 
 def get_hkoi(username):
     url = f"https://judge.hkoi.org/user/{username}"
+    cookies_value = os.getenv('cookies')
     cookies = {
-        'remember_web_59ba36addc2b2f9401580f014c7f58ea4e30989d': os.getenv['cookies']
+        'remember_web_59ba36addc2b2f9401580f014c7f58ea4e30989d': cookies_value
     }
     session = requests.Session()
     set_cookies(session, cookies)
@@ -63,6 +64,16 @@ def get_hkoi(username):
         return ac_count
     except:
         return -1
+
+def get_platform_ac_count(platform, username):
+        ac_count = -1
+        if platform == "hkoi":
+            ac_count = get_hkoi(username)
+        elif platform == "cf":
+            ac_count = get_codeforces(username)
+        elif platform == "at":
+            ac_count = get_atcoder(username)
+        return ac_count
     
 # print(get_atcoder("kotnid"))
 # print(get_codeforces("tkt0506tkt"))
